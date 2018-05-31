@@ -7,8 +7,8 @@ public class PowerUp : MonoBehaviour {
     private PlayerManager pm;
     private float originalStep;
 
-    public float maxTime = 1f;
-    public float engagedTime = -1f;
+    public float maxTime = 0.0f;
+    public float engagedTime = -1.0f;
 
     // Use this for initialization
     void Start () {
@@ -32,8 +32,8 @@ public class PowerUp : MonoBehaviour {
     {
         this.engagedTime = Time.time;
         this.pm = playerManager;
-        this.originalStep = this.pm.chickenMovement.jetPack.SideStep;
-        this.pm.chickenMovement.jetPack.SideStep = 50.0f;
+        this.originalStep = this.pm.chickenMovement.JetPack.SideStep;
+        this.pm.chickenMovement.JetPack.SideStep += 10.0f;
 
         // make the gameobject super small to hide it.
         this.gameObject.transform.localScale = Vector3.zero;
@@ -43,7 +43,7 @@ public class PowerUp : MonoBehaviour {
 
     public void Disenage()
     {
-        this.pm.chickenMovement.jetPack.SideStep = this.originalStep;
+        this.pm.chickenMovement.JetPack.SideStep = this.originalStep;
         Debug.Log("PowerUp.Disengage");
         this.enabled = false;
     }

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CarMovement : MonoBehaviour {
     public float speed = 10;
-    private float endPosition = -70;
+    public float endPosition = -70;
     private Vector3 resetCar;
+    private bool leveledUp = true;
+
     // Use this for initialization
     void Start () {
         resetCar = transform.position;
@@ -14,9 +16,35 @@ public class CarMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.Translate(Vector3.right * speed * Time.deltaTime);
-        if (gameObject.transform.position.x <= endPosition)
+        if(endPosition < 0)
         {
-            transform.position = resetCar;
+            if (gameObject.transform.position.x <= endPosition)
+            {
+                transform.position = resetCar;
+            }
         }
+      
+        else
+        {
+            if (gameObject.transform.position.x >= endPosition)
+            {
+                transform.position = resetCar;
+            }
+        }
+        
 	}
+
+    public void SetSpeed(float modifier)
+    {
+        speed += modifier;
+    }
+
+    public bool getLeveledUp()
+    {
+        return leveledUp;
+    }
+    public void setLeveledUp(bool input)
+    {
+        leveledUp = input;
+    }
 }

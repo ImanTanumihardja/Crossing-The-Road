@@ -11,14 +11,19 @@ public class ChickenMovement : MonoBehaviour
     private Rigidbody rb;
 
     // Public vars
-    public LevelManager levelManager;
-    public JetPack jetPack;
-    public float currentTime;
+    public LevelManager LevelManager;
+    public Harness Harness;
+    //public float CurrentTime;
 
+    public JetPack JetPack
+    {
+        get { return this.Harness.JetPack; }
+    }
+    
     // This function is run when the game is first played
     void Start()
     {
-        this.levelManager = GameObject.FindObjectOfType<LevelManager>();
+        this.LevelManager = GameObject.FindObjectOfType<LevelManager>();
         this.rb = this.GetComponent<Rigidbody>();
     }
 
@@ -51,18 +56,18 @@ public class ChickenMovement : MonoBehaviour
         Tilt();
 
         // Jet pack
-        if (Input.GetKeyDown(KeyCode.Space) && jetPack.Fuel >= 0)
+        if (Input.GetKeyDown(KeyCode.Space) && Harness.JetPack.Fuel >= 0)
         {
-            jetPack.Trigger(true);
+            Harness.JetPack.Trigger(true);
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
-            jetPack.Trigger(false);
+            Harness.JetPack.Trigger(false);
         }
 
-        if (jetPack.Velocity != Vector3.zero)
+        if (Harness.JetPack.Velocity != Vector3.zero)
         {
-            rb.velocity = jetPack.Velocity;
+            rb.velocity = Harness.JetPack.Velocity;
         }
 
         // Reset isMoving and currentDir variables after each Update cycle.
@@ -75,7 +80,7 @@ public class ChickenMovement : MonoBehaviour
         isMoving = true;
         currentDir += dir;
 
-        dir = dir * (Time.deltaTime * jetPack.SideStep);
+        dir = dir * (Time.deltaTime * Harness.JetPack.SideStep);
         transform.Translate(dir, Space.World);
     }
 
@@ -107,20 +112,20 @@ public class ChickenMovement : MonoBehaviour
         // if (other is bridge)
         if (other.gameObject.CompareTag("Bridge"))
         {
-            jetPack.Refuel(true);
+            Harness.JetPack.Refuel(true);
         }
     }
 
     void OnCollisionExit(Collision other)
     {
-        jetPack.Refuel(false);
+        Harness.JetPack.Refuel(false);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("AddPoint"))
         {
-            levelManager.ScoreUp();
+            LevelManager.ScoreUp();
             other.gameObject.SetActive(false);
             Destroy(other.gameObject);
         }

@@ -13,17 +13,28 @@ public class PlayerManager : MonoBehaviour {
     public AudioSource BackgroundMusic;
     public AudioSource LoseAudio;
     public Rigidbody playerRigidBody;
+    public GameObject Explosion;
+    public GameObject DrumStick;
+    public GameObject Chicken;
+
+    private bool died = false;
 
 
     // Use this for initialization
     void Start () {
         LoseAudio.Pause();
-	}
+        Time.timeScale = 1;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+        if (Input.GetKey(KeyCode.Space) && died)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            died = false;
+        }
+    }
 
     void OnCollisionEnter(Collision other)
     {
@@ -43,35 +54,24 @@ public class PlayerManager : MonoBehaviour {
         // First save coins
         this.coinManager.SaveCoins();
 
+        Explosion.SetActive(true);
+        Chicken.SetActive(false);
+        DrumStick.SetActive(true);
+
         // Set timescale to stop game
         if (Time.timeScale == 1)
             Time.timeScale = 0.1f;
         else
             Time.timeScale = 1;
 
+       
         BackgroundMusic.Stop();
         LoseAudio.UnPause();
         LoseText.gameObject.SetActive(true);
-
-        StartCoroutine(WaitToReload());
+        died = true;
+       
     }
 
-    /// <summary>
-    /// Method to reset the scene.
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator WaitToReload()
-    {
-        yield return new WaitForSeconds(0.2f); SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
-    }
-
-    public void IncreaseSpeed()
-    {
-        chickenMovement.jetPack.SideStep += 50.0f;
-        Debug.Log("IncresedSpeed");
-
-    }
 }
 
 

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
+    public GameObject[] Stages;
     public GameObject[] tilePrefabs;
 
     private GameObject player;
@@ -15,6 +16,7 @@ public class LevelManager : MonoBehaviour {
     private float safeZone = 120f;
     private int lastPrefabIndex = 0;
     private float spawnZBack = 0.0f;
+    private bool level = false;
 
     private List<GameObject> activeTiles;
 
@@ -32,12 +34,12 @@ public class LevelManager : MonoBehaviour {
     public Canvas gameController;
     public Canvas startButton;
     public Canvas garageButton;
-    public Canvas garage;
 
     public List<GameObject> coinPrefabIndex;
     public List<GameObject> powerUpPrefabIndex;
 
     public ChickenMovement chickenMove;
+    public CoinManager coinMan;
 
     // Use this for initialization
     void Start () {
@@ -61,7 +63,6 @@ public class LevelManager : MonoBehaviour {
         backWall.GetComponent<Canvas>().enabled = false;
         gameController.GetComponent<Canvas>().enabled = false;
         chickenMove.enabled = false;
-        garage.enabled = false;
     }
 	
 	// Update is called once per frame
@@ -80,6 +81,23 @@ public class LevelManager : MonoBehaviour {
         {
             LevelUp();
         }
+
+        if (level)
+        {
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Vehicle");
+
+            foreach (GameObject go in gos)
+            {
+                CarMovement cm = go.GetComponent<CarMovement>();
+                if (cm != null && cm.getLeveledUp())
+                {
+                    cm.SetSpeed(difficultyLevel);
+                    cm.setLeveledUp(false);
+                }
+            }
+        }
+
+
     }
 
     void LevelUp()
@@ -90,13 +108,13 @@ public class LevelManager : MonoBehaviour {
         scoreToNextLevel += 10;
         difficultyLevel += 10;
 
-        GameObject[] gos = GameObject.FindGameObjectsWithTag("Vehicle");
-
-        foreach (GameObject go in gos) {
-            CarMovement2 cm = go.GetComponent<CarMovement2>();
-            if (cm != null)
-                cm.SetSpeed(difficultyLevel);
+        for (int i = 0; i < tilePrefabs.Length; i++)
+        {
+            tilePrefabs[i] = Stages[1].transform.GetChild(i).gameObject;
         }
+
+        level = true;
+
         Debug.Log("Level Up");
     }
 
@@ -194,7 +212,16 @@ public class LevelManager : MonoBehaviour {
 
     public void OpenGarage()
     {
-        garageButton.GetComponent<Canvas>().enabled = false;
-        garage.enabled = true;
+        SceneManager.LoadScene("Garage");
+    }
+
+    public void OpenRolling()
+    {
+        if(coinMan.CoinCount >= 100)
+        {
+            coinMan.CoinCount -= 100;
+            coinMan.SaveCoins();
+            SceneManager.LoadScene("Rolling");
+        }
     }
 }

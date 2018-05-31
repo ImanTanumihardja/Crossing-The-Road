@@ -24,7 +24,7 @@ public class HeathBar : MonoBehaviour
     {
         //if (Input.GetKey(KeyCode.Space))
         {
-            image.fillAmount = chickenMovement.jetPack.Fuel / chickenMovement.jetPack.MaxFuel;
+            image.fillAmount = chickenMovement.JetPack.Fuel / chickenMovement.JetPack.MaxFuel;
 
             image.color = Color.Lerp(Color.red, originalColor, image.fillAmount);
         }
