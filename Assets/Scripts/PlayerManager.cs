@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKey(KeyCode.Space) && died)
+        if (Input.GetKey(KeyCode.Space) || Input.touchCount == 1 && died)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             died = false;

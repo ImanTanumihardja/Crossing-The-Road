@@ -41,6 +41,7 @@ public class LevelManager : MonoBehaviour {
     public ChickenMovement chickenMove;
     public CoinManager coinMan;
 
+    private bool start = true;
     // Use this for initialization
     void Start () {
         activeTiles = new List<GameObject>();
@@ -68,6 +69,12 @@ public class LevelManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if(Input.GetKey(KeyCode.Space) && start){
+            StartGame();
+        }
+        if(Input.GetKey(KeyCode.G)){
+            OpenGarage();
+        }
         GameObject tile = null;
 		if(player.transform.position.z - safeZone >= (spawnZ - amnTilesOnScreen * tileLength))
         {
@@ -208,6 +215,7 @@ public class LevelManager : MonoBehaviour {
         startButton.GetComponent<Canvas>().enabled = false;
 
         chickenMove.enabled = true;
+        start = false;
     }
 
     public void OpenGarage()
