@@ -15,6 +15,10 @@ public class Rolling : MonoBehaviour {
     private float transition;
     private string giftName;
 
+    private string[] common = {"GreenJetpack", "YellowJetpack" };
+    private string[] rare = { "RedJetpack", "OrangeJetpack" };
+    private string[] legendary = {"BlueJetpack"};
+
 	// Use this for initialization
 	void Start () {
         GameObject jetpackManager = GameObject.Find("JetPackManager");
@@ -32,18 +36,18 @@ public class Rolling : MonoBehaviour {
         {
             Vector3 end = (-Vector3.right * ROLL_OFFSET) * (rolls.Length - 1);
             rollContainer.transform.localPosition = Vector3.Lerp(Vector3.right * ROLL_OFFSET, end, RollCurve.Evaluate(transition));
-            transition += Time.deltaTime / 3.0f;
+            transition += Time.deltaTime / 2.0f;
             if(transition > 1)
             {
                 isRolling = false;
                 switch (giftName)
-                {
+                {  
                     case "Common":
-                        pickJetPack.myJetpacks["GreenJetpack"] = true;
+                        pickJetPack.myJetpacks[common[Random.Range(0, common.Length)]] = true;
                         Debug.Log("You got a Common");
                         break;
                     case "Rare":
-                        pickJetPack.myJetpacks["RedJetpack"] = true;
+                        pickJetPack.myJetpacks[rare[Random.Range(0, rare.Length)]] = true;
                         Debug.Log("You got a Rare");
                         break;
                     case "Legendary":
