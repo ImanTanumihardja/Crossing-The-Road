@@ -32,6 +32,9 @@ public class Rolling : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(Input.GetKey(KeyCode.R)){
+            chestClick();
+        }
         if (isRolling)
         {
             Vector3 end = (-Vector3.right * ROLL_OFFSET) * (rolls.Length - 1);

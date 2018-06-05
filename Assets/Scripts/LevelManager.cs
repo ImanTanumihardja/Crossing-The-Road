@@ -75,6 +75,9 @@ public class LevelManager : MonoBehaviour {
         if(Input.GetKey(KeyCode.G)){
             OpenGarage();
         }
+        if(Input.GetKey(KeyCode.R)){
+            OpenRolling();
+        }
         GameObject tile = null;
 		if(player.transform.position.z - safeZone >= (spawnZ - amnTilesOnScreen * tileLength))
         {

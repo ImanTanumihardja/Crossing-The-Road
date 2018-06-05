@@ -43,6 +43,16 @@ public class GarageManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if(Input.GetKey(KeyCode.LeftArrow)){
+            PrevJetPack();
+        }
+        if(Input.GetKey(KeyCode.RightArrow)){
+            NextJetPack();
+        }
+        if(Input.GetKey(KeyCode.Space)){
+            SelectJetPack();
+        }
+
         rotateJetpack();
 	}
 

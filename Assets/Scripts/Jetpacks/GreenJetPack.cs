@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GreenJetPack : JetPack {
     private const float STEP = 15f;  // how far the chicken moves
-    private const float SIDE_STEP = 215f;  // How far the chicken moves sideways
+    private const float SIDE_STEP = 15f;  // How far the chicken moves sideways
     private const float FUEL_ADD_FLIGHT = 5f;   // increment to fuel in flight
     private const float FUEL_ADD_BRIDGE = 50f;  // increment to fuel on bridge
     private const float FUEL_MINUS = 80f;  // decriment to fuel

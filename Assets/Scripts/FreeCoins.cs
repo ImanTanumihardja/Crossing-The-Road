@@ -26,6 +26,9 @@ public class FreeCoins : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKey(KeyCode.C)){
+            freeCoinClick();
+        }
         if (!coinsButton.IsInteractable())
         {
             if (IsChestReady())
