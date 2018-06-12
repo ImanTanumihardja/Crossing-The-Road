@@ -17,7 +17,7 @@ public class Rolling : MonoBehaviour {
 
     private string[] common = {"GreenJetpack", "YellowJetpack" };
     private string[] rare = { "RedJetpack", "OrangeJetpack" };
-    private string[] legendary = {"BlueJetpack"};
+    private string[] legendary = {"BlueJetpack", "PinkJetpack"};
 
 	// Use this for initialization
 	void Start () {
@@ -54,7 +54,7 @@ public class Rolling : MonoBehaviour {
                         Debug.Log("You got a Rare");
                         break;
                     case "Legendary":
-                        pickJetPack.myJetpacks["BlueJetpack"] = true;
+                        pickJetPack.myJetpacks[legendary[Random.Range(0, legendary.Length)]] = true;
                         Debug.Log("You got a Legendary");
                         break;
                 }
