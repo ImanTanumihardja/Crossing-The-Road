@@ -58,6 +58,7 @@ public class PlayerManager : MonoBehaviour {
         Chicken.SetActive(false);
         DrumStick.SetActive(true);
 
+
         // Set timescale to stop game
         if (Time.timeScale == 1)
             Time.timeScale = 0.1f;

@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour {
         if(Input.GetKey(KeyCode.Space) && start){
             StartGame();
         }
-        if(Input.GetKey(KeyCode.G)){
+        if(Input.GetKey(KeyCode.G) && start){
             OpenGarage();
         }
         if(Input.GetKey(KeyCode.R)){
