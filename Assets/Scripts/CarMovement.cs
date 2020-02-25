@@ -5,8 +5,9 @@ using UnityEngine;
 public class CarMovement : MonoBehaviour {
     public float speed = 10;
     public float endPosition = -70;
+
     private Vector3 resetCar;
-    private bool leveledUp = true;
+    private bool leveledUp = false;
 
     // Use this for initialization
     void Start () {
@@ -34,9 +35,13 @@ public class CarMovement : MonoBehaviour {
         
 	}
 
-    public void SetSpeed(float modifier)
+    public void AddSpeed(float modifier)
     {
         speed += modifier;
+    }
+    public void SetEndPos(float modifier)
+    {
+        endPosition = modifier;
     }
 
     public bool getLeveledUp()

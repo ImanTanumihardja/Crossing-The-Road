@@ -18,10 +18,12 @@ public class PickJetPack : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
 
+
+
         // make the BasicJetpack selected by default.
         for (int i = 0; i < jetpackList.Count; i++)
         {
-            if (jetpackList[i].name == "BasicJetpack")
+            if (jetpackList[i].name.ToUpper() == "None")
             {
                 SelectedJetpack = jetpackList[i];
                 break;
@@ -97,7 +99,7 @@ public class PickJetPack : MonoBehaviour
             myJetpacks.Clear();
             foreach (GameObject jp in this.jetpackList)
             {
-                if (jp.name == "BasicJetpack")
+                if (jp.name == "None")
                     myJetpacks.Add(jp.name, true);
                 else
                     myJetpacks.Add(jp.name, false);

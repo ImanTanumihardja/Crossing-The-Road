@@ -5,10 +5,12 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour {
 
     private PlayerManager pm;
-    private float originalStep;
+    private float originalSideStep;
+    private bool isEngaged = false;
 
-    public float maxTime = 0.0f;
-    public float engagedTime = -1.0f;
+    private float maxTime = 5.0f;
+    private float engagedTime = 0.0f;
+
 
     // Use this for initialization
     void Start () {
@@ -18,11 +20,13 @@ public class PowerUp : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if (this.engagedTime > 0)
+        if (this.engagedTime > 0.0f)
+        {
             if (Time.time - this.engagedTime > maxTime)
             {
                 Disenage();
             }
+        }
     }
 
     /// <summary>
@@ -30,24 +34,26 @@ public class PowerUp : MonoBehaviour {
     /// </summary>
     public void Engage(PlayerManager playerManager)
     {
-        this.engagedTime = Time.time;
-        this.pm = playerManager;
-        this.originalStep = this.pm.chickenMovement.JetPack.SideStep;
-        this.pm.chickenMovement.JetPack.SideStep += 10.0f;
+        if (!isEngaged)
+        {
+            this.isEngaged = true;
+            this.engagedTime = Time.time;
+            this.pm = playerManager;
+            this.originalSideStep = this.pm.chickenMovement.JetPack.Power;
+            this.pm.chickenMovement.JetPack.Power += 30.0f;
 
-        // make the gameobject super small to hide it.
-        this.gameObject.transform.localScale = Vector3.zero;
+            // make the gameobject super small to hide it.
+            this.gameObject.transform.localScale = Vector3.zero;
+            this.gameObject.transform.position =  new Vector3(100, 0, 0);
 
-        Debug.Log("PowerUp.Engage");
+            Debug.Log("PowerUp.Engage");
+        }
     }
 
     public void Disenage()
     {
-        this.pm.chickenMovement.JetPack.SideStep = this.originalStep;
+        this.pm.chickenMovement.JetPack.Power = this.originalSideStep;
         Debug.Log("PowerUp.Disengage");
-        this.enabled = false;
+        Destroy(this);
     }
-
-
-
 }

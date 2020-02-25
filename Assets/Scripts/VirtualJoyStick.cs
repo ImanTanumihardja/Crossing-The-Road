@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class VirtualJoyStick : MonoBehaviour, IDragHandler,IPointerUpHandler, IPointerDownHandler {
 
+    //[SerializeField] private float joystickVisualDistance = 50;
+
     private Image bgImg;
     private Image joystickImg;
     public Vector3 InputDirection { set; get; }
@@ -32,6 +34,7 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler,IPointerUpHandler, IP
             pos.x = (pos.x / bgImg.rectTransform.sizeDelta.x);
             pos.y = (pos.y / bgImg.rectTransform.sizeDelta.y);
 
+
             float x = (bgImg.rectTransform.pivot.x == 1) ? pos.x * 2 + 1 : pos.x * 2 - 1;
             float y = (bgImg.rectTransform.pivot.y == 1) ? pos.y * 2 + 1 : pos.y * 2 - 1;
 
@@ -39,8 +42,8 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler,IPointerUpHandler, IP
             InputDirection = (InputDirection.magnitude > 1) ? InputDirection.normalized : InputDirection;
 
             joystickImg.rectTransform.anchoredPosition =
-                new Vector3(InputDirection.x * (bgImg.rectTransform.sizeDelta.x / 3),
-                    InputDirection.z * (bgImg.rectTransform.sizeDelta.y / 3));
+                new Vector3(InputDirection.x * (bgImg.rectTransform.sizeDelta.x / 3)
+                , InputDirection.z * (bgImg.rectTransform.sizeDelta.y / 3));
         }
           
     }
@@ -60,11 +63,11 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler,IPointerUpHandler, IP
     {
         if(InputDirection != Vector3.zero)
         {
-            chickenMovement.Move(InputDirection);
+           chickenMovement.Move(InputDirection);
         }
         else
         {
-            chickenMovement.Stop();
+           // chickenMovement.Stop();
         }
     }
 

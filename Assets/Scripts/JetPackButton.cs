@@ -26,10 +26,12 @@ public class JetPackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         chickenMovement.JetPack.Trigger(true);
+        chickenMovement.setJetpackOn(true);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         chickenMovement.JetPack.Trigger(false);
+        chickenMovement.setJetpackOn(false);
     }
 }

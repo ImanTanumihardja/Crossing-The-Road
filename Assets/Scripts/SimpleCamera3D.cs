@@ -31,7 +31,7 @@ public class SimpleCamera3D : MonoBehaviour
     /// </summary>
     private Vector3 m_CurrentRotation;
 
-    private bool gyroEnabled;
+    public bool gyroEnabled;
     private Gyroscope gyro;
     private Quaternion rot;
 
@@ -59,13 +59,13 @@ public class SimpleCamera3D : MonoBehaviour
         }
         else
         {
-            // Add the current mouse x and y delta and add it to the current rotation after applying the
-            // sensitivity multiplier
-            m_CurrentRotation +=
-                new Vector3(
-                    Input.GetAxis("Mouse Y") * sensitivity.x,
-                    Input.GetAxis("Mouse X") * sensitivity.y,
-                    0);
+             //Add the current mouse x and y delta and add it to the current rotation after applying the
+             //sensitivity multiplier
+           //m_CurrentRotation +=
+           //     new Vector3(
+           //         Input.GetAxis("Mouse Y") * sensitivity.x,
+           //         Input.GetAxis("Mouse X") * sensitivity.y,
+           //         0);
         }
 
         ClampRotation();    // Clamp the rotational values
@@ -106,11 +106,19 @@ public class SimpleCamera3D : MonoBehaviour
         if (SystemInfo.supportsGyroscope)
         {
             gyro = Input.gyro;
-            gyro.enabled = true;
+            if(PlayerPrefs.GetInt("3D") == 1)
+            {
+                gyro.enabled = false;
+            }
+            else
+            {
+                gyro.enabled = true;
+            }
+           
 
             //cameraContainer.transform.rotation = Quaternion.Euler(90f, 90f, 0f);
             rot = new Quaternion(0, 0, 1, 0);
-            return true;
+            return gyro.enabled;
         }
         return false;
     }
