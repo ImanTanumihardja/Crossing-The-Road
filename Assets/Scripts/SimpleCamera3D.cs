@@ -59,13 +59,13 @@ public class SimpleCamera3D : MonoBehaviour
         }
         else
         {
-             //Add the current mouse x and y delta and add it to the current rotation after applying the
-             //sensitivity multiplier
-           //m_CurrentRotation +=
-           //     new Vector3(
-           //         Input.GetAxis("Mouse Y") * sensitivity.x,
-           //         Input.GetAxis("Mouse X") * sensitivity.y,
-           //         0);
+            //Add the current mouse x and y delta and add it to the current rotation after applying the
+            //sensitivity multiplier
+            m_CurrentRotation +=
+                 new Vector3(
+                     Input.GetAxis("Mouse Y") * sensitivity.x,
+                     Input.GetAxis("Mouse X") * sensitivity.y,
+                     0);
         }
 
         ClampRotation();    // Clamp the rotational values

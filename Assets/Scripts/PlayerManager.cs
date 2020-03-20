@@ -18,6 +18,8 @@ public class PlayerManager : MonoBehaviour {
     public GameObject pickupEffect;
     public bool InvincibleMode = false;
     public List<GameObject> jetPackPartsList;
+    public GameObject collectableText;
+
 
     //Highscore
     private int highscore = 0;
@@ -210,6 +212,8 @@ public class PlayerManager : MonoBehaviour {
             coinCount += 1;
             other.gameObject.SetActive(false);
             coinNoise.Play();
+            GameObject text = Instantiate(collectableText, this.transform.position, new Quaternion(0, 0, 0, 0));
+            Destroy(text, 1);
             SaveCoins();
 
         }
@@ -247,6 +251,9 @@ public class PlayerManager : MonoBehaviour {
                 cryptoniteCount++;
                 myJetPackParts["Cryptonite"] = cryptoniteCount;
             }
+
+            GameObject text = Instantiate(collectableText, this.transform.position, new Quaternion(0, 0, 0, 0));
+            Destroy(text, 1);
 
             SaveJetPackParts();
             other.gameObject.SetActive(false);

@@ -11,6 +11,7 @@ public class Rolling : MonoBehaviour {
     public GameObject target;
     public Text jetpackName;
     public Text rollingText;
+    public Text prizeText;
 
     private PickJetPack pickJetPack;
     private Transform[] rolls;
@@ -27,11 +28,14 @@ public class Rolling : MonoBehaviour {
     private GameObject jetpackManager;
     private GameObject jp;
 
-	// Use this for initialization
-	void Start () {
+    //Parts
+    private Dictionary<string, int> myJetPackParts = new Dictionary<string, int>();
 
-       
+    // Use this for initialization
+    void Start () {
 
+
+        LoadMyJetpackParts();
         jetpackManager = GameObject.Find("JetPackManager");
         pickJetPack = jetpackManager.GetComponent<PickJetPack>();
         rolls = new Transform[rollContainer.childCount];
@@ -59,62 +63,61 @@ public class Rolling : MonoBehaviour {
             if(transition > 1)
             {
                 isRolling = false;
+                int randNum = Random.Range(0, 3);
                 switch (giftName)
-                {  
-                    case "Common":
-                        jetpackNum = Random.Range(0, common.Length);
-                        for (int i = 0; i <= pickJetPack.jetpackList.Count; i++)
+                {
+                    
+                    case "Small":
+                       
+                        if (randNum == 0)
                         {
-                            if (pickJetPack.jetpackList[i].name == common[jetpackNum])
-                            {
-                                jp = Instantiate(pickJetPack.jetpackList[i]);
-                                jp.SetActive(true);
-                                jp.transform.position = target.transform.position;
-                                jetpackName.text = pickJetPack.jetpackList[i].name.ToString();
-                                break;
-                            }
-                            
+                            PlayerPrefs.SetInt("PlayerCoins", PlayerPrefs.GetInt("PlayerCoins") + 50);
+                            prizeText.text = ("+50 Coins");
                         }
-                        pickJetPack.myJetpacks[common[jetpackNum]] = true;
+                        else if (randNum == 1)
+                        {
+                            myJetPackParts["Screw"] = myJetPackParts["Screw"] + 50;
+                            prizeText.text = ("+50 Screws");
+                        }
+                        else
+                        {
+                            myJetPackParts["Metal"] = myJetPackParts["Metal"] + 50;
+                            prizeText.text = ("+50 Metal");
+                        }
+                        SaveJetPackParts();
+                        PlayerPrefs.Save();
                         Debug.Log("You got a Common");
                         break;
-                    case "Rare":
-                        jetpackNum = Random.Range(0, rare.Length);
-                        for (int i = 0; i <= pickJetPack.jetpackList.Count; i++)
-                        {
-                            if (pickJetPack.jetpackList[i].name == rare[jetpackNum])
-                            {
-                                jp =  Instantiate(pickJetPack.jetpackList[i]);
-                                jp.SetActive(true);
-                                jp.transform.position = target.transform.position;
-                                jetpackName.text = pickJetPack.jetpackList[i].name.ToString();
-                                break;
-                            }
 
+                    case "Large":
+                        
+                        if (randNum == 0)
+                        {
+                            PlayerPrefs.SetInt("PlayerCoins", PlayerPrefs.GetInt("PlayerCoins") + 100);
+                            prizeText.text = ("+100 Coins");
                         }
-                        pickJetPack.myJetpacks[rare[jetpackNum]] = true;
+                        else if (randNum == 1)
+                        {
+                            myJetPackParts["Screws"] = myJetPackParts["Screws"] + 100;
+                            prizeText.text = ("+100 Screws");
+                        }
+                        else
+                        {
+                            myJetPackParts["Metal"] = myJetPackParts["Metal"] + 100;
+                            prizeText.text = ("+100 Metal");
+                        }
+                        SaveJetPackParts();
+                        PlayerPrefs.Save();
                         Debug.Log("You got a Rare");
                         break;
-                    case "Legendary":
-                        jetpackNum = Random.Range(0, legendary.Length);
-                        for (int i = 0; i <= pickJetPack.jetpackList.Count; i++)
-                        {
-                            if (pickJetPack.jetpackList[i].name == legendary[jetpackNum])
-                            {
-                                jp = Instantiate(pickJetPack.jetpackList[i]);
-                                jp.SetActive(true);
-                                jp.transform.position = target.transform.position;
-                                jetpackName.text = pickJetPack.jetpackList[i].name.ToString();
-                                break;
-                            }
-                            
-                        }
-                        pickJetPack.myJetpacks[legendary[jetpackNum]] = true;
-                        Debug.Log("You got a Legendary");
+
+                    case "JetPack":
+
+                        jetPackRoll();
                         break;
                 }
 
-                pickJetPack.SaveMyJetpacks();
+
                 SceneManager.LoadScene("Space");
             }
         }
@@ -145,6 +148,66 @@ public class Rolling : MonoBehaviour {
            
     }
 
+    private void jetPackRoll()
+    {
+        int num = Random.Range(0, 101);
+        if(num == 1)
+        {
+            jetpackNum = Random.Range(0, legendary.Length);
+            for (int i = 0; i <= pickJetPack.jetpackList.Count; i++)
+            {
+                if (pickJetPack.jetpackList[i].name == legendary[jetpackNum])
+                {
+                    jp = Instantiate(pickJetPack.jetpackList[i]);
+                    jp.SetActive(true);
+                    jp.transform.position = target.transform.position;
+                    jetpackName.text = pickJetPack.jetpackList[i].name.ToString();
+                    break;
+                }
+            }
+            pickJetPack.myJetpacks[legendary[jetpackNum]] = true;
+            Debug.Log("You got a Legendary");
+        }
+        else if (num >= 75)
+        {
+            jetpackNum = Random.Range(0, rare.Length);
+            for (int i = 0; i <= pickJetPack.jetpackList.Count; i++)
+            {
+                if (pickJetPack.jetpackList[i].name == rare[jetpackNum])
+                {
+                    jp = Instantiate(pickJetPack.jetpackList[i]);
+                    jp.SetActive(true);
+                    jp.transform.position = target.transform.position;
+                    jetpackName.text = pickJetPack.jetpackList[i].name.ToString();
+                    break;
+                }
+
+            }
+            pickJetPack.myJetpacks[rare[jetpackNum]] = true;
+            Debug.Log("You got a Rare");
+        }
+        else
+        {
+            jetpackNum = Random.Range(0, common.Length);
+            for (int i = 0; i <= pickJetPack.jetpackList.Count; i++)
+            {
+                if (pickJetPack.jetpackList[i].name == common[jetpackNum])
+                {
+                    jp = Instantiate(pickJetPack.jetpackList[i]);
+                    jp.SetActive(true);
+                    jp.transform.position = target.transform.position;
+                    jetpackName.text = pickJetPack.jetpackList[i].name.ToString();
+                    break;
+                }
+
+            }
+            pickJetPack.myJetpacks[common[jetpackNum]] = true;
+            Debug.Log("You got a Common");
+        }    
+
+        pickJetPack.SaveMyJetpacks();
+    }
+
     private IEnumerator changeColor()
     {
         float elapsedTime = 0;
@@ -157,5 +220,33 @@ public class Rolling : MonoBehaviour {
         }
         
     }
-        
+
+    public void SaveJetPackParts()
+    {
+        string serializedString = "";
+        foreach (string key in myJetPackParts.Keys)
+        {
+            if (serializedString.Length == 0)
+                serializedString = string.Format("{0}:{1}", key, myJetPackParts[key]); // key + ":" + myJetpacks[key].ToString()
+            else
+                serializedString += string.Format("|{0}:{1}", key, myJetPackParts[key]);
+        }
+        PlayerPrefs.SetString("myJetPackParts", serializedString);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadMyJetpackParts()
+    {
+            myJetPackParts.Clear();
+            // The user has played this game before, and has a myJetpacks parts PlayerPrefs key.
+            // So just load what was saved last time.
+            string serializedString = PlayerPrefs.GetString("myJetPackParts");
+            string[] pairs = serializedString.Split('|');
+            foreach (string pair in pairs)
+            {
+                string[] keyvalue = pair.Split(':');
+                myJetPackParts.Add(keyvalue[0], int.Parse(keyvalue[1]));
+            }
+    }
+
 }

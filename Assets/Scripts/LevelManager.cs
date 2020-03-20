@@ -52,7 +52,7 @@ public class LevelManager : MonoBehaviour {
     public Canvas startButton;
     public Canvas garageButton;
 
-    public List<GameObject> coinPrefabIndex;
+    public GameObject coinPrefab;
     public GameObject powerUp;
 
     //Managers
@@ -368,14 +368,20 @@ public class LevelManager : MonoBehaviour {
         int randomIndex = Random.Range(-1, 2);
         if (randomIndex >= 1)
         {
-            go = Instantiate(coinPrefabIndex[randomIndex]) as GameObject;
-            go.transform.SetParent(parentTile.transform);
-
             float x = Random.Range(-50, 50);
             float y = Random.Range(20, 40);
             float z = Random.Range(15, 50);
-            Vector3 newPos = new Vector3(x, y, z);
-            go.transform.localPosition = newPos;
+            for (int i = 0; i < Random.Range(1, 6); i++)
+            {
+                go = Instantiate(coinPrefab) as GameObject;
+                go.transform.SetParent(parentTile.transform);
+
+
+                Vector3 newPos = new Vector3(x, y, z);
+                go.transform.localPosition = newPos;
+                z -= 5;
+            }
+           
         }
     }
 
@@ -424,14 +430,21 @@ public class LevelManager : MonoBehaviour {
         }
         else if (randomIndex <= 40)
         {
-            go = Instantiate(playerMan.jetPackPartsList[Random.Range(0, 2)]) as GameObject;
-            go.transform.SetParent(parentTile.transform);
-
             float x = Random.Range(-30, 30);
             float y = Random.Range(20, 40);
             float z = Random.Range(15, 50);
-            Vector3 newPos = new Vector3(x, y, z);
-            go.transform.localPosition = newPos;
+            int matType = Random.Range(0, 2);
+
+            for (int i = 0; i < Random.Range(1, 6); i++)
+            {
+                go = Instantiate(playerMan.jetPackPartsList[matType]) as GameObject;
+                go.transform.SetParent(parentTile.transform);
+
+
+                Vector3 newPos = new Vector3(x, y, z);
+                go.transform.localPosition = newPos;
+                z -= 5;
+            }
         }
 
     }

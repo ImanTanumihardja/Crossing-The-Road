@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class ChickenMovement : MonoBehaviour
@@ -10,10 +11,18 @@ public class ChickenMovement : MonoBehaviour
     private Vector3 currentDir = Vector3.zero;
     private Rigidbody rb;
     private bool jetpackOn = false;
+    
 
     // Public vars
     public LevelManager levelManager;
     public Harness Harness;
+
+
+    [Header("Sensors")]
+
+    public Image[] sensorImage;
+    private float sensorLength = 40f;
+
     //public float CurrentTime;
 
     public JetPack JetPack
@@ -27,9 +36,12 @@ public class ChickenMovement : MonoBehaviour
         this.rb = this.GetComponent<Rigidbody>();
     }
 
+
+
     // This function is run every frame
     void Update()
     {
+       
         if (this.transform.position.y <= 26)
         {
             this.rb.useGravity = false;
@@ -104,6 +116,77 @@ public class ChickenMovement : MonoBehaviour
         isMoving = false;
         
         currentDir = Vector3.zero;
+    }
+
+    private void FixedUpdate()
+    {
+        Sensor();
+    }
+
+    public void Sensor()
+    {
+        RaycastHit frontHit;
+        RaycastHit rightHit;
+        RaycastHit leftHit;
+
+        var noHitColor = sensorImage[0].color;
+        noHitColor.a = 0;
+
+        Vector3 sensorStartPos = transform.position;
+
+        //Forward
+        if (Physics.Raycast(sensorStartPos, transform.right, out frontHit, sensorLength))
+        {
+            if (frontHit.transform.tag == "Vehicle")
+            {
+                var hitColor = sensorImage[0].color;
+                hitColor.a = (sensorLength - frontHit.distance) / (sensorLength * 2);
+
+                sensorImage[0].color = hitColor;
+            }
+
+        }
+        else
+        {
+            sensorImage[0].color = noHitColor;
+        }
+
+        //Right
+        if (Physics.Raycast(sensorStartPos, -transform.forward, out rightHit, sensorLength))
+        {
+            if (rightHit.transform.tag == "Vehicle")
+            {
+                var hitColor = sensorImage[0].color;
+                hitColor.a = (sensorLength - rightHit.distance) / (sensorLength * 2);
+
+                sensorImage[1].color = hitColor;
+            }
+        }
+        else
+        {
+            sensorImage[1].color = noHitColor;
+        }
+
+        //Left
+        if (Physics.Raycast(sensorStartPos, transform.forward, out leftHit, sensorLength))
+        {
+            if (leftHit.transform.tag == "Vehicle")
+            {
+                var hitColor = sensorImage[0].color;
+                hitColor.a = (sensorLength - leftHit.distance) / (sensorLength * 2);
+
+                sensorImage[2].color = hitColor;
+            }
+        }
+        else
+        {
+                sensorImage[2].color = noHitColor;
+        }
+
+
+        Debug.DrawLine(sensorStartPos, frontHit.point, Color.red);
+        Debug.DrawLine(sensorStartPos, rightHit.point, Color.blue);
+        Debug.DrawLine(sensorStartPos, leftHit.point, Color.green);
     }
 
     public void Move (Vector3 dir)

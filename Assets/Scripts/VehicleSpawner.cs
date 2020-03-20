@@ -10,7 +10,7 @@ public class VehicleSpawner : MonoBehaviour
     private int count = 0;
     private float timer = 0.0f;
     private float lastTime = 0.0f;
-    private float waitingTime = 2.0f;
+    private float waitingTime = 10.0f;
 
 
     public GameObject targetContainer;
@@ -38,7 +38,7 @@ public class VehicleSpawner : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (timer - lastTime >= waitingTime && count < max)
+        if (timer - lastTime >= Random.Range(3, waitingTime) && count < max)
         {
             SpawnVehicle();
             lastTime = timer;
@@ -129,7 +129,7 @@ public class VehicleSpawner : MonoBehaviour
 
         go.transform.position = newPos;
 
-        targets.RemoveAt(r);
+        //targets.RemoveAt(r);
 
         count++;
 

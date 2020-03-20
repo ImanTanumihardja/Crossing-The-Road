@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour {
     public float msToWait;
     public Text chestTimer;
     public Button coinsButton;
+    public Image NoSound;
+    public Image NoMusic;
 
     private ulong lastFreeCoinOpen;
     private bool gameIsPaused = false;
@@ -138,7 +140,7 @@ public class UIManager : MonoBehaviour {
         }
         else
         {
-            Debug.Log("UnPause");
+            Debug.Log("Pause");
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
             gyroCamera.enabled = false;
@@ -153,12 +155,14 @@ public class UIManager : MonoBehaviour {
             music.gameObject.SetActive(false);
             isMusicOn = false;
             PlayerPrefs.SetInt("Music", 1);
+            NoMusic.gameObject.SetActive(true);
         }
         else
         {
             music.gameObject.SetActive(true);
             isMusicOn = true;
             PlayerPrefs.SetInt("Music", 0);
+            NoMusic.gameObject.SetActive(false);
         }
     }
 
@@ -196,6 +200,7 @@ public class UIManager : MonoBehaviour {
             AudioListener.pause = true;
             isSoundOn = false;
             PlayerPrefs.SetInt("Sound", 1);
+            NoSound.gameObject.SetActive(true);
         }
         else
         {
@@ -203,6 +208,7 @@ public class UIManager : MonoBehaviour {
             music.gameObject.SetActive(true);
             isSoundOn = true;
             PlayerPrefs.SetInt("Sound", 0);
+            NoSound.gameObject.SetActive(false);
         }
     }
 
